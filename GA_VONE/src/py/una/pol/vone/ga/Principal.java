@@ -3,8 +3,6 @@
  */
 package py.una.pol.vone.ga;
 
-import java.io.IOException;
-
 /**
  * @author fernando
  *
