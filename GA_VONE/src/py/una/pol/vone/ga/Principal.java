@@ -24,16 +24,18 @@ public class Principal {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String graphFileName;
 		int K;
 		
-		graphFileName = "GA_VONE/src/py/una/pol/vone/ga/NSFNet.txt";
+		graphFileName = "GA_VONE/src/py/una/pol/vone/ga/USNet.txt";
 		K = 6;
 		//
 		List<Camino> todosLosCaminos = hallarKCaminos(graphFileName, K);
-		
-		//Algoritmo Genetico debe ir aqui.
+		//TODO Esquematizar la red sustrato con todos los FS (4000 para 50 THz), representacion del vone de manera 
+		//computacional
+		//TODO Algortimo de generación de redes virtuales
+		//TODO Algoritmo Genetico debe ir aqui.
+		//TODO Mostrar resultados, hacer comparativas y recibirnos de unos malditos ingenieros.
 	}
 	
 	/**

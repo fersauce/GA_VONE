@@ -20,7 +20,7 @@ public class Camino {
 	private int destino;
 	private List<Path> caminos;
 	public Camino() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public Camino(int origenExt, int destinoExt){
