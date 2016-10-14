@@ -1,0 +1,17 @@
+Representacion de la red sustrato G(V,E)
+- Lista de nodos sustrato (V)
+- Lista de Enlaces sustrato (E)
+
+Nodo sustrato:
+- Nombre
+- Total de CPU del nodo
+- CPU disponible (inicialmente igual al total de CPU que posee el nodo)
+- Listado de adyacentes (enlaces sustratos que salen de este nodo y van a los 
+  nodos destino de dichos enlaces.
+
+Enlace Sustrato:
+- Nodo de destino (ya que el nodo origen se setea con el enlace
+
+Solución
+- Indiviuo con la asignación más óptima encontrada.
+- Matriz donde se representa las posiciones utilizadas.
