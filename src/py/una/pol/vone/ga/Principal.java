@@ -12,10 +12,9 @@ import edu.ufl.cise.bsmock.graph.util.Path;
 import py.una.pol.vone.ga.model.Camino;
 
 /**
- * Clase principal que ejecutara las pruebas necesarias para el analisis respectivo del problema VONE con un 
- * enfoque de algoritmo genetico.
+ * Clase principal que ejecutara las pruebas necesarias para el analisis
+ * respectivo del problema VONE con un enfoque de algoritmo genetico.
  * @author fernando
- *
  */
 public class Principal {
 
@@ -27,25 +26,28 @@ public class Principal {
 		String graphFileName;
 		int K;
 		
-		graphFileName = "GA_VONE/src/py/una/pol/vone/ga/USNet.txt";
+		graphFileName = "src/py/una/pol/vone/ga/USNet.txt";
 		K = 6;
-		//
-		List<Camino> todosLosCaminos = hallarKCaminos(graphFileName, K);
-		//TODO Esquematizar la red sustrato con todos los FS (4000 para 50 THz), representacion del vone de manera 
-		//computacional
-		//TODO Algortimo de generación de redes virtuales
+		
+		hallarKCaminos(graphFileName, K);
+		//List<Camino> todosLosCaminos = hallarKCaminos(graphFileName, K);
+
+		//TODO Esquematizar la red sustrato con todos los FS (4000 para 50 THz),
+		//representacion del vone de manera computacional
+		//TODO Algortimo de generaciï¿½n de redes virtuales
 		//TODO Algoritmo Genetico debe ir aqui.
 		//TODO Mostrar resultados, hacer comparativas y recibirnos de unos malditos ingenieros.
 	}
 	
 	/**
-	 * Metodo que utilizaremos para hallar los K caminos entre el par de nodos seleccionado de una red, que en este 
-	 * caso sera montado como un grafo.
-	 * @param graphFileName direccion del archivo que contiene los datos del grafo a montar.
+	 * Metodo que utilizaremos para hallar los K caminos entre el par de nodos
+	 * seleccionado de una red, que en este caso sera montado como un grafo.
+	 * @param graphFileName direccion del archivo que contiene los datos del
+	 * grafo a montar.
 	 * @param cantCaminos cantidad de caminos a hallar entre nodos.
 	 * @return Lista con los K caminos mas cortos entre todos los nodos del grafo
 	 */
-	public static List<Camino> hallarKCaminos(String graphFileName, int cantCaminos){
+	public static void hallarKCaminos(String graphFileName, int cantCaminos){
 		System.out.println("Leyendo los datos de la red a montar");
 		Graph grafo = new Graph(graphFileName);
 		System.out.println("Completado.");
@@ -55,7 +57,7 @@ public class Principal {
 		long tiempoInicial = System.currentTimeMillis();
 		for(int origen = 0; origen < cantidadNodos; origen++){
 			for(int destino = origen+1;destino < cantidadNodos; destino++){
-				//Aquí se halla el camino entre origen y destino.
+				//Aqui se halla el camino entre origen y destino.
 				List<Path> caminos;
 				Yen algoritmoYen = new Yen();
 				
@@ -71,15 +73,15 @@ public class Principal {
 		}
 		long tiempoFinal = System.currentTimeMillis();
 		System.out.println("Completado.");
-		System.out.println("La búsqueda se ha realizado en "+(tiempoFinal-tiempoInicial)/1000.00+" segundos.");
+		System.out.println("La bÃºsqueda se ha realizado en "+(tiempoFinal-tiempoInicial)/1000.00+" segundos.");
 		for (Camino camino:todosLosCaminos){
-			System.out.println("A continuación mostramos los caminos hallados");
+			System.out.println("A continuaciÃ³n mostramos los caminos hallados");
 			System.out.println("k) costo: [camino]");
 			int n = 0;
 			for(Path p:camino.getCaminos()){
 				System.out.println(++n +") " + p);
 			}
 		}
-		return todosLosCaminos;
+		//return todosLosCaminos;
 	}
 }
