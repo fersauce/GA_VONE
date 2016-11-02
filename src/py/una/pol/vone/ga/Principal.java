@@ -31,6 +31,8 @@ public class Principal {
 		K = 6;
 		//
 		List<Camino> todosLosCaminos = hallarKCaminos(graphFileName, K);
+		//TODO Hacer modelos de Sustrate Network y Virtual Network
+		//TODO Hallar los K caminos entre cada par de nodos
 		//TODO Esquematizar la red sustrato con todos los FS (4000 para 50 THz), representacion del vone de manera 
 		//computacional
 		//TODO Algortimo de generacion de redes virtuales
