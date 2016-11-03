@@ -24,6 +24,7 @@ public class SustrateNode {
 	}
 	
 	public SustrateNode(int id, String nombre, int capacidadCPU, int[] CPU){
+		super();
 		this.ID = id;
 		this.nombre = nombre;
 		this.capacidadCPU = capacidadCPU;

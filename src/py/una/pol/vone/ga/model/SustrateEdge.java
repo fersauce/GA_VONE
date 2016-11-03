@@ -21,6 +21,7 @@ public class SustrateEdge {
 	}
 	
 	public SustrateEdge(SustrateNode origen, SustrateNode destino, int distancia){
+		super();
 		this.nodoOrigen = origen;
 		this.nodoDestino = destino;
 		this.distancia = distancia;

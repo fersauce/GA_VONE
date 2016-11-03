@@ -18,6 +18,7 @@ public class SustrateNetwork {
 	 */
 	public SustrateNetwork() {
 		// TODO Auto-generated constructor stub
+		super();
 		this.nodosFisicos = new ArrayList<SustrateNode>();
 		this.enlacesFisicos = new ArrayList<SustrateEdge>();
 	}
