@@ -21,48 +21,27 @@ import org.jgrapht.graph.SimpleGraph;
  * Clase utilizada para generar las topologias de redes virtuales.
  */
 public class VirtualNetworkGenerator {
-
 	
 	static Graph<Object, DefaultEdge> grafoGenerado;
-	//static int size = 4;
 
+	/**
+	 * Metodo que genera una topologia conexa y la almacena en el atributo de clase grafoGenerado
+	 * @param cantidadNodos numero de nodos que contendra la topologia
+	 * @param cantidadEnlaces numero de enlaces que contendra la topologia
+	 */
 	public static void generarTopologia(int cantidadNodos, int cantidadEnlaces){
-		/*//Se crea el objeto (interface) Graph y se instancia un grafo simple.
-		grafoGenerado = new SimpleGraph<>(DefaultEdge.class);
-		GnmRandomGraphGenerator<Object, DefaultEdge> generadorDeGrafo = 
-				new GnmRandomGraphGenerator<>(cantidadNodos, cantidadEnlaces);
-		VertexFactory<Object> vFactory = new ClassBasedVertexFactory<>(Object.class);
-		boolean grafoConexo = false;
-		int contadorNoConexo = 0;
-		while(!grafoConexo){
-			//Con este metodo se genera un grafo sin bucles ni multiples enlaces de manera aleatoria
-			generadorDeGrafo.generateGraph(grafoGenerado, vFactory, null);
-			Set<Object> nodos = new HashSet<>();
-			nodos.addAll(grafoGenerado.vertexSet());
-			//Integer contador = 1;
-			//for(Object nodo : nodos){
-			//	reemplazarNodos(nodo, contador);
-			//}
-			Iterator<Object> nodosNuevos = grafoGenerado.vertexSet().iterator();//new DepthFirstIterator<>(grafoGenerado);
-			Object nodoNuevo;
-			while(nodosNuevos.hasNext()){
-				nodoNuevo = nodosNuevos.next();
-				System.out.println(grafoGenerado.edgesOf(nodoNuevo).isEmpty());
-				if(!grafoGenerado.edgesOf(nodoNuevo).isEmpty()){
-					System.out.println("Genero "+ ++contadorNoConexo + "topologias no conexas");
-					grafoConexo = true;
-				}
-			}
-		}*/
-		// Create the graph object; it is null at this point
-        //grafoGenerado = new SimpleGraph<>(DefaultEdge.class);
-
-        
         grafoGenerado = null;
         while(!generarTopologiaPriv(cantidadNodos, cantidadEnlaces)){
         }
 	}
 	
+	
+	/**
+	 * Metodo privado que genera una topologia y retorna si el mismo es conexo o no
+	 * @param cantidadNodos numero de nodos que contendra la topologia
+	 * @param cantidadEnlaces numero de enlaces que contendra la topologia
+	 * @return boolean que indica si se genero o no una topologia conexa
+	 */
 	private static boolean generarTopologiaPriv(int cantidadNodos, int cantidadEnlaces){
 		grafoGenerado = new SimpleGraph<>(DefaultEdge.class);
 		// Create the CompleteGraphGenerator object
@@ -86,7 +65,7 @@ public class VirtualNetworkGenerator {
             reemplazarNodos(vertex, counter++);
         }
 
-        // Print out the graph to be sure it's really complete
+        /* Print out the graph to be sure it's really complete
         Iterator<Object> iter = grafoGenerado.vertexSet().iterator();// new DepthFirstIterator<>(completeGraph);
         Object vertex;
         while (iter.hasNext()) {
@@ -101,13 +80,7 @@ public class VirtualNetworkGenerator {
             	edge = hola.next();
             	System.out.println(grafoGenerado.getEdgeSource(edge)+grafoGenerado.getEdgeTarget(edge).toString());
             }
-            /*if(grafoGenerado.edgesOf(vertex).size()==0){
-            	System.out.println("Hola, nuevo grafo");
-            	counter = 0;
-            	grafoGenerado = null;
-            	return false;
-            }*/
-        }
+        }*/
         ArrayList<Object> visitados = new ArrayList<>();
         recorrerEnProfundidad(grafoGenerado.vertexSet().iterator().next(), visitados);
         System.out.println(visitados.size());
@@ -120,6 +93,11 @@ public class VirtualNetworkGenerator {
 		return true;
 	}
 	
+	/**
+	 * Metodo privado que realiza un recorrido en profundidad del grafo 
+	 * @param vertice
+	 * @param visitados
+	 */
 	private static void recorrerEnProfundidad(Object vertice, ArrayList<Object> visitados){
 		visitados.add(vertice);
 		Iterator<DefaultEdge> enlaces = grafoGenerado.edgesOf(vertice).iterator();
@@ -137,65 +115,14 @@ public class VirtualNetworkGenerator {
 			}
 		}
 	}
-	public static void main(String[] args)
+	
+	/**
+	 * @param oldVertex
+	 * @param newVertex
+	 * @return
+	 */
+	private static void reemplazarNodos(Object oldVertex, Object newVertex)
     {
-        /*/ Create the graph object; it is null at this point
-        grafoGenerado = new SimpleGraph<>(DefaultEdge.class);
-
-        // Create the CompleteGraphGenerator object
-        //CompleteGraphGenerator<Object, DefaultEdge> completeGenerator =
-         //   new CompleteGraphGenerator<>(size);
-        GnmRandomGraphGenerator<Object, DefaultEdge> completeGenerator = new GnmRandomGraphGenerator<>(size, 3);
-
-        // Create the VertexFactory so the generator can create vertices
-        VertexFactory<Object> vFactory = new ClassBasedVertexFactory<>(Object.class);
-
-        // Use the CompleteGraphGenerator object to make completeGraph a
-        // complete graph with [size] number of vertices
-        completeGenerator.generateGraph(grafoGenerado, vFactory, null);
-
-        // Now, replace all the vertices with sequential numbers so we can ID
-        // them
-        Set<Object> vertices = new HashSet<>();
-        vertices.addAll(grafoGenerado.vertexSet());
-        Integer counter = 0;
-        for (Object vertex : vertices) {
-            reemplazarNodos(vertex, counter++);
-        }
-
-        // Print out the graph to be sure it's really complete
-        @SuppressWarnings("unchecked")
-		Iterator<Object> iter = grafoGenerado.vertexSet().iterator();// new DepthFirstIterator<>(completeGraph);
-        Object vertex;
-        while (iter.hasNext()) {
-            vertex = iter.next();
-            System.out.println(
-                "Vertex " + vertex.toString() + " is connected to: "
-                    + grafoGenerado.edgesOf(vertex).toString());
-            Iterator<DefaultEdge> hola = grafoGenerado.edgesOf(vertex).iterator();
-            DefaultEdge edge;
-            while (hola.hasNext()){
-            	edge = hola.next();
-            	System.out.println(grafoGenerado.getEdgeSource(edge)+grafoGenerado.getEdgeTarget(edge).toString());
-            }
-        }*/
-		Random rand = new Random();
-		int numNodos, numEnlaces, numMaxEnlaces, numMinEnlaces;
-		for(int i = 1;i <= 10; i++){
-			numNodos = rand.nextInt(5)+3;
-			numMinEnlaces = numNodos - 1;
-			numMaxEnlaces = (numNodos*(numNodos-1))/2;//Numero de enlaces de un grafo conexo con N nodos.
-			numEnlaces = rand.nextInt(numMaxEnlaces - numMinEnlaces + 1) + numMinEnlaces;
-			System.out.println("Topologia "+i+" de "+numNodos+" nodos y "+numEnlaces+" enlaces");
-			generarTopologia(numNodos, numEnlaces);
-		}
-    }
-
-    private static boolean reemplazarNodos(Object oldVertex, Object newVertex)
-    {
-        if ((oldVertex == null) || (newVertex == null)) {
-            return false;
-        }
         Set<DefaultEdge> relatedEdges = grafoGenerado.edgesOf(oldVertex);
         grafoGenerado.addVertex(newVertex);
 
@@ -215,6 +142,19 @@ public class VirtualNetworkGenerator {
             }
         }
         grafoGenerado.removeVertex(oldVertex);
-        return true;
+    }
+	
+	public static void main(String[] args)
+    {
+		Random rand = new Random();
+		int numNodos, numEnlaces, numMaxEnlaces, numMinEnlaces;
+		for(int i = 1;i <= 10; i++){
+			numNodos = rand.nextInt(5)+3;
+			numMinEnlaces = numNodos - 1;
+			numMaxEnlaces = (numNodos*(numNodos-1))/2;//Numero de enlaces de un grafo conexo con N nodos.
+			numEnlaces = rand.nextInt(numMaxEnlaces - numMinEnlaces + 1) + numMinEnlaces;
+			System.out.println("Topologia "+i+" de "+numNodos+" nodos y "+numEnlaces+" enlaces");
+			generarTopologia(numNodos, numEnlaces);
+		}
     }
 }
