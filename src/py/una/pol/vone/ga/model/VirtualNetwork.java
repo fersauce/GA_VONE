@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author fernandosaucedo
  * Modelo que representa al VNR
+ * @author fersauce
  */
 public class VirtualNetwork {
 	private List<VirtualNode> nodosVirtuales;
 	private List<VirtualEdge> enlacesVirtuales;
 	private boolean mapeado;
 	/**
-	 * 
+	 * Constructor de la clase.
 	 */
 	public VirtualNetwork() {
 		super();
@@ -24,9 +24,9 @@ public class VirtualNetwork {
 		this.mapeado = false;
 	}
 	/**
-	 * @param nodosVirtuales
-	 * @param enlacesVirtuales
-	 * @param mapeado
+	 * Constructor de la clase.
+	 * @param nodosVirtuales ArrayList con todos los nodos de la red virtual.
+	 * @param enlacesVirtuales ArrayList con todos los enlaces entre los nodos de la red virtual.
 	 */
 	public VirtualNetwork(ArrayList<VirtualNode> nodosVirtuales, 
 			ArrayList<VirtualEdge> enlacesVirtuales) {
@@ -83,4 +83,27 @@ public class VirtualNetwork {
 	public void addEnlaceVirtual(VirtualEdge enlaceVirtual){
 		this.enlacesVirtuales.add(enlaceVirtual);
 	}
+	@Override
+	public String toString() {
+		String retorno = new String();
+		retorno = retorno.concat("Se imprime primero los nodos\n");
+		for(VirtualNode nodo: this.getNodosVirtuales()){
+			retorno = retorno.concat("Nodo "+nodo.getNombre()+"\nEnlazado a el/los nodo/s: ");
+			for(VirtualEdge enlace: nodo.getAdyacentes()){
+				if(enlace.getNodoDos()==nodo){
+					retorno = retorno.concat(enlace.getNodoUno().getNombre()+", ");
+				} else {
+					retorno = retorno.concat(enlace.getNodoDos().getNombre()+", ");
+				}
+			}
+			retorno = retorno.concat("\n");
+		}
+		retorno = retorno.concat("Ahora se imprimen los enlaces entre estos nodos\n");
+		for(VirtualEdge enlace: this.getEnlacesVirtuales()){
+			retorno = retorno.concat("Enlace "+enlace.getNodoUno().getNombre()+"<->"+enlace.getNodoDos().getNombre()+"\n");
+		}
+		return retorno;
+	}
+	
+	
 }

@@ -7,27 +7,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author fernandosaucedo
  * Modelo que representa el nodo virtual
+ * @author fersauce
+ * @version 1.0
  */
 public class VirtualNode {
 	private String nombre;
+	private int identificador;
 	private int capacidadCPU;
 	private List<VirtualEdge> adyacentes;
 	private boolean asignado;
 	/**
-	 * 
+	 * Constructor de la clase.
 	 */
 	public VirtualNode() {
-		// TODO Auto-generated constructor stub
 	}
-	public VirtualNode(String nombre, int capacidadCPU, 
-			int frequencySlotsNecesarios) {
+	/**
+	 * Constructor de la clase
+	 * @param nombre Nombre a asignar al nodo.
+	 * @param capacidadCPU capacidad de CPU del nodo.
+	 * @param id identificador del nodo virtual.
+	 */
+	public VirtualNode(int id, String nombre, int capacidadCPU) {
 		super();
 		this.nombre = nombre;
+		this.identificador = id;
 		this.capacidadCPU = capacidadCPU;
 		this.adyacentes = new ArrayList<VirtualEdge>();
 		this.asignado = false;
+	}
+	
+	/**
+	 * Getter del identificador.
+	 * @return identificador del nodo virtual.
+	 */
+	public int getIdentificador() {
+		return identificador;
+	}
+	/**
+	 * Setter del identificador.
+	 * @param identificador identificador a setear en el atributo.
+	 */
+	public void setIdentificador(int identificador) {
+		this.identificador = identificador;
 	}
 	/**
 	 * @return el nombre del enlace

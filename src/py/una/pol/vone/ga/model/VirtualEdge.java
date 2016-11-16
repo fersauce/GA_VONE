@@ -4,8 +4,9 @@
 package py.una.pol.vone.ga.model;
 
 /**
- * @author fernandosaucedo
  * Modelo que representa al enlace virtual entre dos nodos
+ * @author fersauce
+ * @version 1.0
  */
 public class VirtualEdge {
 	private VirtualNode nodoUno;
@@ -13,12 +14,12 @@ public class VirtualEdge {
 	private int cantidadFSNecesarios;
 	private boolean asignado;
 	/**
-	 * 
+	 * Constructor de la clase.
 	 */
 	public VirtualEdge() {
-		// TODO Auto-generated constructor stub
 	}
 	/**
+	 * Constructor de la clase.
 	 * @param nodoUno primer nodo que conforma el enlace
 	 * @param nodoDos segundo nodo que conforma el enlace
 	 * @param cantidadFSNecesarios numero de FS a ser utilizados por este enlace

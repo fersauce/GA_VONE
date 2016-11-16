@@ -16,9 +16,15 @@ import org.jgrapht.graph.ClassBasedVertexFactory;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
+import py.una.pol.vone.ga.model.VirtualEdge;
+import py.una.pol.vone.ga.model.VirtualNetwork;
+import py.una.pol.vone.ga.model.VirtualNode;
+
 /**
- * @author fersauce
  * Clase utilizada para generar las topologias de redes virtuales.
+ * @author fersauce
+ * @version 1.0
+ * @since 2016-11-15
  */
 public class VirtualNetworkGenerator {
 	
@@ -65,7 +71,7 @@ public class VirtualNetworkGenerator {
             reemplazarNodos(vertex, counter++);
         }
 
-        /* Print out the graph to be sure it's really complete
+        /* Print out the graph to be sure it's really complete*/
         Iterator<Object> iter = grafoGenerado.vertexSet().iterator();// new DepthFirstIterator<>(completeGraph);
         Object vertex;
         while (iter.hasNext()) {
@@ -80,7 +86,7 @@ public class VirtualNetworkGenerator {
             	edge = hola.next();
             	System.out.println(grafoGenerado.getEdgeSource(edge)+grafoGenerado.getEdgeTarget(edge).toString());
             }
-        }*/
+        }
         ArrayList<Object> visitados = new ArrayList<>();
         recorrerEnProfundidad(grafoGenerado.vertexSet().iterator().next(), visitados);
         System.out.println(visitados.size());
@@ -117,9 +123,9 @@ public class VirtualNetworkGenerator {
 	}
 	
 	/**
-	 * @param oldVertex
-	 * @param newVertex
-	 * @return
+	 * Metodo que reemplaza el valor del vertice obtenido (Object) en otro objeto pasado como parametro
+	 * @param oldVertex objeto viejo a reemplazar
+	 * @param newVertex objeto nuevo a colocar en el lugar del viejo
 	 */
 	private static void reemplazarNodos(Object oldVertex, Object newVertex)
     {
@@ -148,13 +154,78 @@ public class VirtualNetworkGenerator {
     {
 		Random rand = new Random();
 		int numNodos, numEnlaces, numMaxEnlaces, numMinEnlaces;
-		for(int i = 1;i <= 10; i++){
+		ArrayList<VirtualNetwork> requerimientosVirtuales = new ArrayList<>();
+		VirtualNetwork redVirtual;
+		ArrayList<VirtualNode> nodosVirtuales;
+		ArrayList<VirtualEdge> enlacesVirtuales;
+		for(int i = 1;i <= 1; i++){
 			numNodos = rand.nextInt(5)+3;
 			numMinEnlaces = numNodos - 1;
 			numMaxEnlaces = (numNodos*(numNodos-1))/2;//Numero de enlaces de un grafo conexo con N nodos.
 			numEnlaces = rand.nextInt(numMaxEnlaces - numMinEnlaces + 1) + numMinEnlaces;
 			System.out.println("Topologia "+i+" de "+numNodos+" nodos y "+numEnlaces+" enlaces");
 			generarTopologia(numNodos, numEnlaces);
+			//Se crea las listas para albergar los nodos virtuales y los enlaces virtuales
+			nodosVirtuales = new ArrayList<VirtualNode>();
+			enlacesVirtuales = new ArrayList<VirtualEdge>();
+			//Aqui se agrega los nodos a la lista.
+			VirtualNode nodo;
+			int capacidadCPU;
+			for (int j = 1; j<= numNodos; j++){
+				//El requerimiento de CPU es entre uno y cuatro unidades de CPU, por eso el rand entre esos valores.
+				capacidadCPU = rand.nextInt(4)+1;
+				nodo = new VirtualNode(j,"VNR"+String.valueOf(i)+"N"+String.valueOf(j), capacidadCPU);
+				nodosVirtuales.add(nodo);
+				nodo = null;
+			}
+			//Aqui se agrega los enlaces virtuales.
+			Iterator<DefaultEdge> aristas = grafoGenerado.edgeSet().iterator();
+			DefaultEdge arista;
+			VirtualEdge enlace;
+			VirtualNode nodoOrigen = null, nodoDestino = null;
+			int cantidadFS;
+			while(aristas.hasNext()){
+				arista = aristas.next();
+				enlace = new VirtualEdge();
+				boolean origenEncontrado = false, destinoEncontrado = false;
+				for(VirtualNode nod: nodosVirtuales){
+					if(!origenEncontrado&&grafoGenerado.getEdgeSource(arista).toString().
+							equals(String.valueOf(nod.getIdentificador()))){
+						nodoOrigen = nod;
+						System.out.println("Origen: "+nodoOrigen.getNombre());
+						origenEncontrado = true;
+					} else if(!destinoEncontrado&&grafoGenerado.getEdgeTarget(arista).toString().
+							equals(String.valueOf(nod.getIdentificador()))){
+						nodoDestino = nod;
+						System.out.println("Destino: "+nodoDestino.getNombre());
+						destinoEncontrado = true;
+					}
+					if(origenEncontrado&&destinoEncontrado){
+						break;
+					}
+				}
+				//El requerimiento de FS es entre uno y cuatro unidades, por eso el rand entre esos valores.
+				cantidadFS = rand.nextInt(4)+1;
+				//Se crea el enlace virtual
+				enlace = new VirtualEdge(nodoOrigen, nodoDestino, cantidadFS);
+				//Se asocia a cada nodo virtual el enlace creado.
+				ArrayList<VirtualEdge> adyacentesOrigen = (ArrayList<VirtualEdge>)nodoOrigen.getAdyacentes();
+				adyacentesOrigen.add(enlace);
+				nodoOrigen.setAdyacentes(adyacentesOrigen);
+				ArrayList<VirtualEdge> adyacentesDestino = (ArrayList<VirtualEdge>)nodoDestino.getAdyacentes();
+				adyacentesDestino.add(enlace);
+				nodoDestino.setAdyacentes(adyacentesDestino);
+				enlacesVirtuales.add(enlace);
+				//Se libera todo.
+				nodoOrigen = null;
+				nodoDestino = null;
+				enlace = null;
+				arista = null;
+			}
+			redVirtual = new VirtualNetwork(nodosVirtuales,enlacesVirtuales);
+			requerimientosVirtuales.add(redVirtual);
+			redVirtual = null;
 		}
+		System.out.println(requerimientosVirtuales.toString());
     }
 }
