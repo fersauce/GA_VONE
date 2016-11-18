@@ -3,6 +3,8 @@
  */
 package py.una.pol.vone.ga.util;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,6 +18,9 @@ import org.jgrapht.graph.ClassBasedVertexFactory;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
+import py.una.pol.vone.ga.model.SustrateEdge;
+import py.una.pol.vone.ga.model.SustrateNetwork;
+import py.una.pol.vone.ga.model.SustrateNode;
 import py.una.pol.vone.ga.model.VirtualEdge;
 import py.una.pol.vone.ga.model.VirtualNetwork;
 import py.una.pol.vone.ga.model.VirtualNode;
@@ -24,11 +29,11 @@ import py.una.pol.vone.ga.model.VirtualNode;
  * Clase utilizada para generar las topologias de redes virtuales.
  * @author fersauce
  * @version 1.0
- * @since 2016-11-15
+ * @since 2016-11-16
  */
-public class VirtualNetworkGenerator {
+public class NetworkGenerator {
 	
-	static Graph<Object, DefaultEdge> grafoGenerado;
+	private static Graph<Object, DefaultEdge> grafoGenerado;
 
 	/**
 	 * Metodo que genera una topologia conexa y la almacena en el atributo de clase grafoGenerado
@@ -71,7 +76,7 @@ public class VirtualNetworkGenerator {
             reemplazarNodos(vertex, counter++);
         }
 
-        /* Print out the graph to be sure it's really complete*/
+        /* Print out the graph to be sure it's really complete
         Iterator<Object> iter = grafoGenerado.vertexSet().iterator();// new DepthFirstIterator<>(completeGraph);
         Object vertex;
         while (iter.hasNext()) {
@@ -86,7 +91,7 @@ public class VirtualNetworkGenerator {
             	edge = hola.next();
             	System.out.println(grafoGenerado.getEdgeSource(edge)+grafoGenerado.getEdgeTarget(edge).toString());
             }
-        }
+        }*/
         ArrayList<Object> visitados = new ArrayList<>();
         recorrerEnProfundidad(grafoGenerado.vertexSet().iterator().next(), visitados);
         System.out.println(visitados.size());
@@ -101,8 +106,8 @@ public class VirtualNetworkGenerator {
 	
 	/**
 	 * Metodo privado que realiza un recorrido en profundidad del grafo 
-	 * @param vertice
-	 * @param visitados
+	 * @param vertice objeto que tiene los datos del vertice de los cuales se buscara si hay hijos y si ya se visitaron.
+	 * @param visitados lista que tiene los vertices que ya fueron visitados.
 	 */
 	private static void recorrerEnProfundidad(Object vertice, ArrayList<Object> visitados){
 		visitados.add(vertice);
@@ -124,41 +129,41 @@ public class VirtualNetworkGenerator {
 	
 	/**
 	 * Metodo que reemplaza el valor del vertice obtenido (Object) en otro objeto pasado como parametro
-	 * @param oldVertex objeto viejo a reemplazar
-	 * @param newVertex objeto nuevo a colocar en el lugar del viejo
+	 * @param nodoViejo objeto viejo a reemplazar
+	 * @param nodoNuevo objeto nuevo a colocar en el lugar del viejo
 	 */
-	private static void reemplazarNodos(Object oldVertex, Object newVertex)
+	private static void reemplazarNodos(Object nodoViejo, Object nodoNuevo)
     {
-        Set<DefaultEdge> relatedEdges = grafoGenerado.edgesOf(oldVertex);
-        grafoGenerado.addVertex(newVertex);
+        Set<DefaultEdge> relatedEdges = grafoGenerado.edgesOf(nodoViejo);
+        grafoGenerado.addVertex(nodoNuevo);
 
         Object sourceVertex;
         Object targetVertex;
         for (DefaultEdge e : relatedEdges) {
             sourceVertex = grafoGenerado.getEdgeSource(e);
             targetVertex = grafoGenerado.getEdgeTarget(e);
-            if (sourceVertex.equals(oldVertex) && targetVertex.equals(oldVertex)) {
-            	grafoGenerado.addEdge(newVertex, newVertex);
+            if (sourceVertex.equals(nodoViejo) && targetVertex.equals(nodoViejo)) {
+            	grafoGenerado.addEdge(nodoNuevo, nodoNuevo);
             } else {
-                if (sourceVertex.equals(oldVertex)) {
-                	grafoGenerado.addEdge(newVertex, targetVertex);
+                if (sourceVertex.equals(nodoViejo)) {
+                	grafoGenerado.addEdge(nodoNuevo, targetVertex);
                 } else {
-                	grafoGenerado.addEdge(sourceVertex, newVertex);
+                	grafoGenerado.addEdge(sourceVertex, nodoNuevo);
                 }
             }
         }
-        grafoGenerado.removeVertex(oldVertex);
+        grafoGenerado.removeVertex(nodoViejo);
     }
 	
-	public static void main(String[] args)
+	public void generarRedesVirtuales(int cantidadRedes, ArrayList<VirtualNetwork> requerimientosVirtuales)
     {
 		Random rand = new Random();
 		int numNodos, numEnlaces, numMaxEnlaces, numMinEnlaces;
-		ArrayList<VirtualNetwork> requerimientosVirtuales = new ArrayList<>();
+		//ArrayList<VirtualNetwork> requerimientosVirtuales = new ArrayList<>();
 		VirtualNetwork redVirtual;
 		ArrayList<VirtualNode> nodosVirtuales;
 		ArrayList<VirtualEdge> enlacesVirtuales;
-		for(int i = 1;i <= 1; i++){
+		for(int i = 1;i <= cantidadRedes; i++){
 			numNodos = rand.nextInt(5)+3;
 			numMinEnlaces = numNodos - 1;
 			numMaxEnlaces = (numNodos*(numNodos-1))/2;//Numero de enlaces de un grafo conexo con N nodos.
@@ -170,13 +175,14 @@ public class VirtualNetworkGenerator {
 			enlacesVirtuales = new ArrayList<VirtualEdge>();
 			//Aqui se agrega los nodos a la lista.
 			VirtualNode nodo;
-			int capacidadCPU;
+			int capacidadCPU, totalCPU = 0;
 			for (int j = 1; j<= numNodos; j++){
 				//El requerimiento de CPU es entre uno y cuatro unidades de CPU, por eso el rand entre esos valores.
 				capacidadCPU = rand.nextInt(4)+1;
 				nodo = new VirtualNode(j,"VNR"+String.valueOf(i)+"N"+String.valueOf(j), capacidadCPU);
 				nodosVirtuales.add(nodo);
 				nodo = null;
+				totalCPU += capacidadCPU;
 			}
 			//Aqui se agrega los enlaces virtuales.
 			Iterator<DefaultEdge> aristas = grafoGenerado.edgeSet().iterator();
@@ -189,15 +195,15 @@ public class VirtualNetworkGenerator {
 				enlace = new VirtualEdge();
 				boolean origenEncontrado = false, destinoEncontrado = false;
 				for(VirtualNode nod: nodosVirtuales){
-					if(!origenEncontrado&&grafoGenerado.getEdgeSource(arista).toString().
+					if(!origenEncontrado && grafoGenerado.getEdgeSource(arista).toString().
 							equals(String.valueOf(nod.getIdentificador()))){
 						nodoOrigen = nod;
-						System.out.println("Origen: "+nodoOrigen.getNombre());
+						//System.out.println("Origen: "+nodoOrigen.getNombre());
 						origenEncontrado = true;
-					} else if(!destinoEncontrado&&grafoGenerado.getEdgeTarget(arista).toString().
+					} else if(!destinoEncontrado && grafoGenerado.getEdgeTarget(arista).toString().
 							equals(String.valueOf(nod.getIdentificador()))){
 						nodoDestino = nod;
-						System.out.println("Destino: "+nodoDestino.getNombre());
+						//System.out.println("Destino: "+nodoDestino.getNombre());
 						destinoEncontrado = true;
 					}
 					if(origenEncontrado&&destinoEncontrado){
@@ -223,9 +229,96 @@ public class VirtualNetworkGenerator {
 				arista = null;
 			}
 			redVirtual = new VirtualNetwork(nodosVirtuales,enlacesVirtuales);
+			redVirtual.setTotalCPU(totalCPU);
 			requerimientosVirtuales.add(redVirtual);
 			redVirtual = null;
 		}
-		System.out.println(requerimientosVirtuales.toString());
+		//System.out.println(requerimientosVirtuales.toString());
     }
+	/**
+	 * Metodo para generar la red Fisica
+	 * @param redFisica objeto que va a almacenar la red fisica.
+	 * @param pathRed direccion de donde obtener los enlaces de la red fisica.
+	 * @param cantidadNodos numero de nodos que va a contener la red fisica.
+	 */
+	public void generarRedFisica(SustrateNetwork redFisica, String pathRed, int cantidadNodos){
+		ArrayList<SustrateNode> nodosFisicos = new ArrayList<SustrateNode>();
+		ArrayList<SustrateEdge> enlacesFisicos = new ArrayList<SustrateEdge>();
+		//Esta parte es para generar los nodos
+		SustrateNode nodoNuevo;
+		Random rnd = new Random();
+		int capacidadCPU;
+		
+		for(int i = 1; i<=cantidadNodos; i++){
+			//Se hace el random entre 10 y 20 unidades de CPU.
+			capacidadCPU = rnd.nextInt(11)+1;
+			nodoNuevo = new SustrateNode(i, "NodoSustrato "+String.valueOf(i), capacidadCPU);
+			nodosFisicos.add(nodoNuevo);
+			nodoNuevo = null;
+		}
+		
+		//Metodo para generar los enlaces fisicos
+		try{
+			@SuppressWarnings("resource")
+			BufferedReader bf = new BufferedReader(new FileReader(pathRed));
+			String linea = bf.readLine();
+			SustrateNode nodoOrigen = null, nodoDestino = null;
+			SustrateEdge enlaceNuevo;
+			boolean origenEncontrado = false, destinoEncontrado = false, enlaceRepetido = false;
+			int distancia;
+			while(linea != null){
+				String [] descripcionEnlace = linea.split("\\s");
+				if(descripcionEnlace.length == 3){
+					for(SustrateNode nodo: nodosFisicos){
+						if(!origenEncontrado && nodo.getID() == (Integer.parseInt(descripcionEnlace[0])+1)){
+							nodoOrigen = nodo;
+							origenEncontrado = true;
+						} else if(!destinoEncontrado && nodo.getID() == (Integer.parseInt(descripcionEnlace[1])+1)){
+							nodoDestino = nodo;
+							destinoEncontrado = true;
+						}
+						if(origenEncontrado && destinoEncontrado){
+							break;
+						}
+					}
+					//La distancia es un valor que agregue, entre 1 y 5 km, por si los lleguemos a utilizar.
+					distancia = rnd.nextInt(5)+1;
+					enlaceNuevo = new SustrateEdge(nodoOrigen, nodoDestino, distancia);
+					/*Las dos siguientes lineas es para verificar que no exista el enlace, ya que el archivo tiene 
+					 * dos enlaces por el tema de convertir en no dirigido dicho grafo
+					 */
+					for(SustrateEdge enlace: enlacesFisicos){
+						//Aqui se verifica si el enlace ya no existe, pero invertido
+						if((enlace.getNodoOrigen().getID() == nodoOrigen.getID() && 
+								enlace.getNodoDestino().getID() == nodoDestino.getID()) ||
+								(enlace.getNodoOrigen().getID()==nodoDestino.getID() && 
+								enlace.getNodoDestino().getID() == nodoOrigen.getID())){
+							enlaceRepetido = true;
+							break;
+						}
+					}					
+					if(!enlaceRepetido){
+						enlacesFisicos.add(enlaceNuevo);
+						ArrayList<SustrateEdge> adyacentesOrigen = nodoOrigen.getAdyacentes();
+						adyacentesOrigen.add(enlaceNuevo);
+						nodoOrigen.setAdyacentes(adyacentesOrigen);
+						ArrayList<SustrateEdge> adyacentesDestino = nodoDestino.getAdyacentes();
+						adyacentesDestino.add(enlaceNuevo);
+						nodoDestino.setAdyacentes(adyacentesDestino);
+					}
+				}
+				linea = bf.readLine();
+				nodoOrigen = null;
+				nodoDestino = null;
+				enlaceNuevo = null;
+				origenEncontrado = false;
+				destinoEncontrado = false;
+				enlaceRepetido = false;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		redFisica.setEnlacesFisicos(enlacesFisicos);
+		redFisica.setNodosFisicos(nodosFisicos);
+	}
 }

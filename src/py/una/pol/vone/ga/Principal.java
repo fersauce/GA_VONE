@@ -4,18 +4,24 @@
 package py.una.pol.vone.ga;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import edu.ufl.cise.bsmock.graph.Graph;
 import edu.ufl.cise.bsmock.graph.ksp.Yen;
 import edu.ufl.cise.bsmock.graph.util.Path;
 import py.una.pol.vone.ga.model.Camino;
+import py.una.pol.vone.ga.model.SustrateNetwork;
+import py.una.pol.vone.ga.model.VirtualNetwork;
+import py.una.pol.vone.ga.util.NetworkGenerator;
 
 /**
  * Clase principal que ejecutara las pruebas necesarias para el analisis respectivo del problema VONE con un 
  * enfoque de algoritmo genetico.
- * @author fernando
- *
+ * @author fersauce
+ * @since 1.0
+ * @since 2016-09-12
  */
 public class Principal {
 
@@ -30,11 +36,30 @@ public class Principal {
 		graphFileName = "src/py/una/pol/vone/ga/USNet.txt";
 		K = 6;
 		//
+		@SuppressWarnings("unused")
 		List<Camino> todosLosCaminos = hallarKCaminos(graphFileName, K);
+		NetworkGenerator generador = new NetworkGenerator();
+		SustrateNetwork redFisica = new SustrateNetwork();
+		ArrayList<VirtualNetwork> redesVirtuales = new ArrayList<VirtualNetwork>();
+		//Aqui se genera primero la red fisica, dependiendo del classpath se arma el tema.
+		int cantidadNodos = 14;
+		String path = "src/py/una/pol/vone/ga/NSFNet.txt";
+		generador.generarRedFisica(redFisica, path, cantidadNodos);
+		System.out.println(redFisica.toString());
+		int cantidadRedesVirtuales = 5;
+		generador.generarRedesVirtuales(cantidadRedesVirtuales, redesVirtuales);
+		//Aqui se ordenan los requerimientos de redes virtuales de acuerdo al total de CPU
+		Collections.sort(redesVirtuales, new Comparator<VirtualNetwork>() {
+			@Override
+			public int compare(VirtualNetwork redUno, VirtualNetwork redDos) {
+				return new Integer(redDos.getTotalCPU()).compareTo(new Integer(redUno.getTotalCPU()));
+			}
+		});
+		System.out.println(redesVirtuales.toString());
 		//TODO Hacer modelos de Sustrate Network y Virtual Network
 		//TODO Hallar los K caminos entre cada par de nodos
-		//TODO Esquematizar la red sustrato con todos los FS (4000 para 50 THz), representacion del vone de manera 
-		//computacional
+		/*TODO Esquematizar la red sustrato con todos los FS (200 segun el profe), representacion del vone de manera 
+		 * computacional*/
 		//TODO Algortimo de generacion de redes virtuales
 		//TODO Algoritmo Genetico debe ir aqui.
 		//TODO Mostrar resultados, hacer comparativas y recibirnos de unos malditos ingenieros.

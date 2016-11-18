@@ -13,6 +13,19 @@ import java.util.List;
 public class VirtualNetwork {
 	private List<VirtualNode> nodosVirtuales;
 	private List<VirtualEdge> enlacesVirtuales;
+	private int totalCPU;
+	/**
+	 * @return the totalCPU
+	 */
+	public int getTotalCPU() {
+		return totalCPU;
+	}
+	/**
+	 * @param totalCPU the totalCPU to set
+	 */
+	public void setTotalCPU(int totalCPU) {
+		this.totalCPU = totalCPU;
+	}
 	private boolean mapeado;
 	/**
 	 * Constructor de la clase.
@@ -102,6 +115,7 @@ public class VirtualNetwork {
 		for(VirtualEdge enlace: this.getEnlacesVirtuales()){
 			retorno = retorno.concat("Enlace "+enlace.getNodoUno().getNombre()+"<->"+enlace.getNodoDos().getNombre()+"\n");
 		}
+		retorno = retorno.concat("Total de CPU de la red: "+this.getTotalCPU());
 		return retorno;
 	}
 	
