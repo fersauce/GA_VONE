@@ -75,29 +75,9 @@ public class NetworkGenerator {
         for (Object vertex : vertices) {
             reemplazarNodos(vertex, counter++);
         }
-
-        /* Print out the graph to be sure it's really complete
-        Iterator<Object> iter = grafoGenerado.vertexSet().iterator();// new DepthFirstIterator<>(completeGraph);
-        Object vertex;
-        while (iter.hasNext()) {
-            vertex = iter.next();
-            System.out.println(
-                "Vertex " + vertex.toString() + " is connected to: "
-                    + grafoGenerado.edgesOf(vertex).toString());
-            Iterator<DefaultEdge> hola = grafoGenerado.edgesOf(vertex).iterator();
-            DefaultEdge edge;
-            System.out.println(grafoGenerado.edgesOf(vertex).size());
-            while (hola.hasNext()){
-            	edge = hola.next();
-            	System.out.println(grafoGenerado.getEdgeSource(edge)+grafoGenerado.getEdgeTarget(edge).toString());
-            }
-        }*/
         ArrayList<Object> visitados = new ArrayList<>();
         recorrerEnProfundidad(grafoGenerado.vertexSet().iterator().next(), visitados);
-        System.out.println(visitados.size());
         if(visitados.size()!=cantidadNodos){
-        	System.out.println("No es conexo");
-        	System.out.println(visitados.toString());
         	grafoGenerado = null;
         	return false;
         }
@@ -168,7 +148,6 @@ public class NetworkGenerator {
 			numMinEnlaces = numNodos - 1;
 			numMaxEnlaces = (numNodos*(numNodos-1))/2;//Numero de enlaces de un grafo conexo con N nodos.
 			numEnlaces = rand.nextInt(numMaxEnlaces - numMinEnlaces + 1) + numMinEnlaces;
-			System.out.println("Topologia "+i+" de "+numNodos+" nodos y "+numEnlaces+" enlaces");
 			generarTopologia(numNodos, numEnlaces);
 			//Se crea las listas para albergar los nodos virtuales y los enlaces virtuales
 			nodosVirtuales = new ArrayList<VirtualNode>();
@@ -198,12 +177,10 @@ public class NetworkGenerator {
 					if(!origenEncontrado && grafoGenerado.getEdgeSource(arista).toString().
 							equals(String.valueOf(nod.getIdentificador()))){
 						nodoOrigen = nod;
-						//System.out.println("Origen: "+nodoOrigen.getNombre());
 						origenEncontrado = true;
 					} else if(!destinoEncontrado && grafoGenerado.getEdgeTarget(arista).toString().
 							equals(String.valueOf(nod.getIdentificador()))){
 						nodoDestino = nod;
-						//System.out.println("Destino: "+nodoDestino.getNombre());
 						destinoEncontrado = true;
 					}
 					if(origenEncontrado&&destinoEncontrado){
@@ -233,7 +210,6 @@ public class NetworkGenerator {
 			requerimientosVirtuales.add(redVirtual);
 			redVirtual = null;
 		}
-		//System.out.println(requerimientosVirtuales.toString());
     }
 	/**
 	 * Metodo para generar la red Fisica

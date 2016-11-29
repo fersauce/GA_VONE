@@ -45,7 +45,7 @@ public class Principal {
 		int cantidadNodos = 14;
 		String path = "src/py/una/pol/vone/ga/NSFNet.txt";
 		generador.generarRedFisica(redFisica, path, cantidadNodos);
-		System.out.println(redFisica.toString());
+		//System.out.println(redFisica.toString());
 		int cantidadRedesVirtuales = 5;
 		generador.generarRedesVirtuales(cantidadRedesVirtuales, redesVirtuales);
 		//Aqui se ordenan los requerimientos de redes virtuales de acuerdo al total de CPU
@@ -55,7 +55,6 @@ public class Principal {
 				return new Integer(redDos.getTotalCPU()).compareTo(new Integer(redUno.getTotalCPU()));
 			}
 		});
-		System.out.println(redesVirtuales.toString());
 		//TODO Hacer modelos de Sustrate Network y Virtual Network
 		//TODO Hallar los K caminos entre cada par de nodos
 		/*TODO Esquematizar la red sustrato con todos los FS (200 segun el profe), representacion del vone de manera 
@@ -73,12 +72,12 @@ public class Principal {
 	 * @return Lista con los K caminos mas cortos entre todos los nodos del grafo
 	 */
 	public static List<Camino> hallarKCaminos(String graphFileName, int cantCaminos){
-		System.out.println("Leyendo los datos de la red a montar");
+		//Aqui se lee los datos de la red a montar
 		Graph grafo = new Graph(graphFileName);
-		System.out.println("Completado.");
 		int cantidadNodos = grafo.numNodes();
 		List<Camino> todosLosCaminos = new ArrayList<Camino>();
 		
+		@SuppressWarnings("unused")
 		long tiempoInicial = System.currentTimeMillis();
 		for(int origen = 0; origen < cantidadNodos; origen++){
 			for(int destino = origen+1;destino < cantidadNodos; destino++){
@@ -96,9 +95,11 @@ public class Principal {
 				todosLosCaminos.add(caminoNuevo);
 			}
 		}
+		@SuppressWarnings("unused")
 		long tiempoFinal = System.currentTimeMillis();
-		System.out.println("Completado.");
-		System.out.println("La busqueda se ha realizado en "+(tiempoFinal-tiempoInicial)/1000.00+" segundos.");
+		/*System.out.println("La busqueda se ha realizado en "+(tiempoFinal-tiempoInicial)/1000.00+" segundos.");
+		 * Este es para hacer que imprima el tiempo que tarda en hallar todos los k caminos
+		 *
 		for (Camino camino:todosLosCaminos){
 			System.out.println("A continuacion mostramos los caminos hallados");
 			System.out.println("k) costo: [camino]");
@@ -106,7 +107,7 @@ public class Principal {
 			for(Path p:camino.getCaminos()){
 				System.out.println(++n +") " + p);
 			}
-		}
+		}*/
 		return todosLosCaminos;
 	}
 }
