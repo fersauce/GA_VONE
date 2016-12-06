@@ -56,8 +56,6 @@ public class NetworkGenerator {
 	private static boolean generarTopologiaPriv(int cantidadNodos, int cantidadEnlaces){
 		grafoGenerado = new SimpleGraph<>(DefaultEdge.class);
 		// Create the CompleteGraphGenerator object
-        //CompleteGraphGenerator<Object, DefaultEdge> completeGenerator =
-         //   new CompleteGraphGenerator<>(size);
         GnmRandomGraphGenerator<Object, DefaultEdge> completeGenerator = 
         		new GnmRandomGraphGenerator<>(cantidadNodos, cantidadEnlaces);
 
