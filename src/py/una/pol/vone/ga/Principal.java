@@ -33,7 +33,7 @@ public class Principal {
 		String graphFileName;
 		int K;
 		
-		graphFileName = "src/py/una/pol/vone/ga/USNet.txt";
+		graphFileName = "static/sustratenets/USNet.txt";
 		K = 6;
 		//
 		@SuppressWarnings("unused")
