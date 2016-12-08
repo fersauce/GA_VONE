@@ -1,0 +1,6 @@
+Cantidad de Nodos: 4
+Enlaces: 
+2 1
+1 3
+2 3
+4 2

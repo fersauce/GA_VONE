@@ -4,6 +4,7 @@
 package py.una.pol.vone.ga.util;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -170,24 +171,90 @@ public class TopologyGenerator {
 	public static void main(String[] args) {
 		int cantidadRedes = 10;
 		ArrayList<Graph<Object, DefaultEdge>> listaDeGrafos;
-		listaDeGrafos = generarRedes(cantidadRedes);
-		for (Graph<Object, DefaultEdge> grafoAux : listaDeGrafos) {
-			System.out.println(grafoAux);
-		}
 		/* Primero se crea el directorio donde se almacenara */
-		File miDir = new File("");
-		try {
-			System.out.println(miDir.getAbsolutePath());
-		} catch (Exception e) {
 
-		}
-		
-		for(int cantidad=1; cantidad<=5;cantidad++){
-			/*Instancio y creo el directorio multiplicando por 10 y agregando un cero a la izq. */
-			for(int archivo=1; archivo<=20;archivo++){
-				/*Instancio y creo el fichero .txt con info de la red y una red por archivo*/
+		for (int cantidad = 1; cantidad <= 5; cantidad++) {
+			/*
+			 * Instancio y creo el directorio multiplicando por 10 y agregando
+			 * un cero a la izq.
+			 */
+			listaDeGrafos = generarRedes(cantidadRedes*cantidad);
+			String nombreDirectorio = "";
+			nombreDirectorio = nombreDirectorio.concat("static/vnrgroups/0");
+			int numeroDirectorio = cantidad * 10;
+			nombreDirectorio = nombreDirectorio.concat(Integer.toString(numeroDirectorio));
+			try {
+				/*
+				 * Se crea el directorio que va a tener las topologias de red o
+				 * grafos en base a la cantidad de topologias
+				 */
+				File directorio = new File(nombreDirectorio);
+				System.out.println(directorio.getAbsolutePath());
+				if (!directorio.exists()) {
+					directorio.mkdirs();
+				}
+				for (int numeroSubDirectorio = 1; numeroSubDirectorio <= 10; numeroSubDirectorio++) {
+					/* Se crea el subdirectorio que contendra cada VNR */
+					String nombreSubDirectorio = "";
+					if (numeroSubDirectorio < 10) {
+						nombreSubDirectorio = nombreDirectorio.concat("/00");
+					} else {
+						nombreSubDirectorio = nombreDirectorio.concat("/0");
+					}
+					nombreSubDirectorio = nombreSubDirectorio.concat(Integer.toString(numeroSubDirectorio));
+					File subDirectorio = new File(nombreSubDirectorio);
+					System.out.println(subDirectorio.getAbsolutePath());
+					if (!subDirectorio.exists()) {
+						subDirectorio.mkdirs();
+					}
+					for (int numeroArchivo = 1; numeroArchivo <= cantidadRedes*cantidad; numeroArchivo++) {
+						/*
+						 * Instancio y creo el fichero .txt con info de la red y
+						 * una red por archivo
+						 */
+						String nombreFichero = "";
+						if (numeroArchivo < 10) {
+							nombreFichero = nombreSubDirectorio.concat("/00");
+						} else {
+							nombreFichero = nombreSubDirectorio.concat("/0");
+						}
+						nombreFichero = nombreFichero.concat(Integer.toString(numeroArchivo));
+						nombreFichero = nombreFichero.concat(".txt");
+						crearFichero(nombreFichero, listaDeGrafos.get(numeroArchivo - 1));
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Error al crear carpeta y/o archivo: " + e.getMessage());
 			}
 		}
 	}
 
+	/**
+	 * Metodo privado que crea el archivo y carga el mismo con los datos de la
+	 * cantidad de nodos y enlaces en el mismo.
+	 * 
+	 * @param fichero
+	 *            Objeto File que tiene el dato a utilizar para crear el archivo
+	 * @param nombreFichero
+	 *            Objeto que contiene todos los datos del grafo a guardar en el
+	 *            archivo
+	 */
+	private static void crearFichero(String nombreFichero, Graph<Object, DefaultEdge> grafo) {
+		FileWriter fichero = null;
+		try {
+			if (!(new File(nombreFichero)).exists()) {
+				/* Escribimos la cantidad de nodos que tiene el grafo */
+				fichero = new FileWriter(nombreFichero);
+				fichero.write("Cantidad de Nodos: " + grafo.vertexSet().size() + "\n");
+				fichero.write("Enlaces: ");
+				for (DefaultEdge enlace : grafo.edgeSet()) {
+					fichero.write("\n" + grafo.getEdgeSource(enlace).toString() + " "
+							+ grafo.getEdgeTarget(enlace).toString());
+				}
+				fichero.close();
+			}
+		} catch (Exception ex) {
+			System.out.println("Error al crear el archivo: " + ex.getMessage());
+		}
+	}
 }
