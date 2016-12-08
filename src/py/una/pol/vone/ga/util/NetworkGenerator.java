@@ -27,7 +27,7 @@ import py.una.pol.vone.ga.model.VirtualNode;
 
 /**
  * Clase utilizada para generar las topologias de redes virtuales.
- * @author fersauce
+ * @author Fernando Saucedo
  * @version 1.0
  * @since 2016-11-16
  */
@@ -45,7 +45,6 @@ public class NetworkGenerator {
         while(!generarTopologiaPriv(cantidadNodos, cantidadEnlaces)){
         }
 	}
-	
 	
 	/**
 	 * Metodo privado que genera una topologia y retorna si el mismo es conexo o no
@@ -133,6 +132,11 @@ public class NetworkGenerator {
         grafoGenerado.removeVertex(nodoViejo);
     }
 	
+	/**
+	 * Metodo utilizado para generar las redes virtuales a utilizar.
+	 * @param cantidadRedes numero de redes a tener la red.
+	 * @param requerimientosVirtuales Listado en donde se van a almacenar las redes generadas.
+	 */
 	public void generarRedesVirtuales(int cantidadRedes, ArrayList<VirtualNetwork> requerimientosVirtuales)
     {
 		Random rand = new Random();
@@ -209,6 +213,7 @@ public class NetworkGenerator {
 			redVirtual = null;
 		}
     }
+	
 	/**
 	 * Metodo para generar la red Fisica
 	 * @param redFisica objeto que va a almacenar la red fisica.
