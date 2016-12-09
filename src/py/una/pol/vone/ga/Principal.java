@@ -33,6 +33,7 @@ public class Principal {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		/* Aqui iniciamos escogiendo la red a utilizar */
 		String graphFileName;
 		int K, cantidadNodos;
 		System.out.println(
@@ -40,10 +41,10 @@ public class Principal {
 		Scanner scannerEntrada = new Scanner(System.in);
 		String datos;
 		datos = scannerEntrada.nextLine();
-		if(datos.equals("1")){
+		if (datos.equals("1")) {
 			graphFileName = "static/sustatrenets/NSFNet.txt";
 			cantidadNodos = 14;
-		}else{
+		} else {
 			graphFileName = "static/sustatrenets/USNet.txt";
 			cantidadNodos = 24;
 		}
@@ -59,6 +60,28 @@ public class Principal {
 		 */
 		generador.generarRedFisica(redFisica, graphFileName, cantidadNodos);
 		int cantidadRedesVirtuales = 5;
+		/*
+		 * Aqui se selecciona la cantidad de redes y el numero de la agrupacion
+		 * de topologias a utilizar para crear las VNRs
+		 */
+		System.out.println("Escoja la cantidad de redes a utilizar en la ejecucion de la prueba");
+		String datosCantidadRedes = scannerEntrada.nextLine();
+		String direccionArchivoTopoligias = "static/vnrgroups";
+		switch (Integer.parseInt(datosCantidadRedes)) {
+		case 1:
+			String datosNumeroDeRed = scannerEntrada.nextLine();
+			System.out.println("Ingrese la topologia a utilizar");
+			direccionArchivoTopoligias = direccionArchivoTopoligias.concat("/010");
+			int numeroDeRed = Integer.parseInt(datosNumeroDeRed);
+			if (numeroDeRed < 10) {
+				direccionArchivoTopoligias = direccionArchivoTopoligias.concat("00" + datosNumeroDeRed);
+			} else {
+				direccionArchivoTopoligias = direccionArchivoTopoligias.concat("0" + datosNumeroDeRed);
+			}
+			break;
+		default:
+			break;
+		}
 		generador.generarRedesVirtuales(cantidadRedesVirtuales, redesVirtuales);
 		/*
 		 * Aqui se ordenan los requerimientos de redes virtuales de acuerdo al
@@ -71,6 +94,11 @@ public class Principal {
 			}
 		});
 	}
+
+	/*
+	 * private static String crearPathArchivoDeTopologia(int cantidad, int
+	 * numeroDeRed){ String opcion; return opcion; }
+	 */
 
 	/**
 	 * Metodo que utilizaremos para hallar los K caminos entre el par de nodos
