@@ -1,7 +1,7 @@
 /**
  * 
  */
-package py.una.pol.vone.ga;
+package py.una.pol.vone.simulator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,10 +12,10 @@ import java.util.Scanner;
 import edu.ufl.cise.bsmock.graph.Graph;
 import edu.ufl.cise.bsmock.graph.ksp.Yen;
 import edu.ufl.cise.bsmock.graph.util.Path;
-import py.una.pol.vone.ga.model.Camino;
-import py.una.pol.vone.ga.model.SustrateNetwork;
-import py.una.pol.vone.ga.model.VirtualNetwork;
-import py.una.pol.vone.ga.util.NetworkGenerator;
+import py.una.pol.vone.simulator.model.Camino;
+import py.una.pol.vone.simulator.model.SustrateNetwork;
+import py.una.pol.vone.simulator.model.VirtualNetwork;
+import py.una.pol.vone.simulator.util.NetworkGenerator;
 
 /**
  * Clase principal que ejecutara el simulador para realizar el analisis
@@ -38,13 +38,16 @@ public class Principal {
 		int K, cantidadNodos;
 		System.out.println(
 				"Por favor seleccione la red sobre la cual se va montar las redes virtuales\n1. Red NSF\n2. Red US");
+		@SuppressWarnings("resource")
 		Scanner scannerEntrada = new Scanner(System.in);
 		String datos;
 		datos = scannerEntrada.nextLine();
 		if (datos.equals("1")) {
+			System.out.println("Usted ha seleccionado la red NSFNet");
 			graphFileName = "static/sustatrenets/NSFNet.txt";
 			cantidadNodos = 14;
 		} else {
+			System.out.println("Usted ha seleccionado la red USFNet");
 			graphFileName = "static/sustatrenets/USNet.txt";
 			cantidadNodos = 24;
 		}
@@ -65,23 +68,35 @@ public class Principal {
 		 * de topologias a utilizar para crear las VNRs
 		 */
 		System.out.println("Escoja la cantidad de redes a utilizar en la ejecucion de la prueba");
+		System.out.println("1. Grupos de 10 redes\n2. Grupos de 20 redes\n3. Grupos de 30 redes\n"
+				+ "4. Grupos de 40 redes\n5. Grupos de 50 redes");
 		String datosCantidadRedes = scannerEntrada.nextLine();
 		String direccionArchivoTopoligias = "static/vnrgroups";
 		switch (Integer.parseInt(datosCantidadRedes)) {
 		case 1:
-			String datosNumeroDeRed = scannerEntrada.nextLine();
-			System.out.println("Ingrese la topologia a utilizar");
 			direccionArchivoTopoligias = direccionArchivoTopoligias.concat("/010");
-			int numeroDeRed = Integer.parseInt(datosNumeroDeRed);
-			if (numeroDeRed < 10) {
-				direccionArchivoTopoligias = direccionArchivoTopoligias.concat("00" + datosNumeroDeRed);
-			} else {
-				direccionArchivoTopoligias = direccionArchivoTopoligias.concat("0" + datosNumeroDeRed);
-			}
+			direccionArchivoTopoligias = direccionArchivoTopoligias.concat(seleccionarTopologia(10));
+			break;
+		case 2:
+			direccionArchivoTopoligias = direccionArchivoTopoligias.concat("/020");
+			direccionArchivoTopoligias = direccionArchivoTopoligias.concat(seleccionarTopologia(20));
+			break;
+		case 3:
+			direccionArchivoTopoligias = direccionArchivoTopoligias.concat("/030");
+			direccionArchivoTopoligias = direccionArchivoTopoligias.concat(seleccionarTopologia(30));
+			break;
+		case 4:
+			direccionArchivoTopoligias = direccionArchivoTopoligias.concat("/040");
+			direccionArchivoTopoligias = direccionArchivoTopoligias.concat(seleccionarTopologia(40));
+			break;
+		case 5:
+			direccionArchivoTopoligias = direccionArchivoTopoligias.concat("/050");
+			direccionArchivoTopoligias = direccionArchivoTopoligias.concat(seleccionarTopologia(50));
 			break;
 		default:
 			break;
 		}
+		System.out.println(direccionArchivoTopoligias);
 		generador.generarRedesVirtuales(cantidadRedesVirtuales, redesVirtuales);
 		/*
 		 * Aqui se ordenan los requerimientos de redes virtuales de acuerdo al
@@ -95,10 +110,28 @@ public class Principal {
 		});
 	}
 
-	/*
-	 * private static String crearPathArchivoDeTopologia(int cantidad, int
-	 * numeroDeRed){ String opcion; return opcion; }
+	/**
+	 * Metodo para realizar la seleccion del grupo de redes seleccionado.
+	 * @param cantidadDeGrupos indica la cantidad de redes que tiene cada grupo
+	 * @return cadena con la opcion seleccionada
 	 */
+	private static String seleccionarTopologia(int cantidadDeGrupos) {
+		String opcion;
+		System.out.println(
+				"Por favor selecciona un grupo de redes, todos son de " + cantidadDeGrupos + " topologias de redes.");
+		for (int i = 1; i <= 10; i++) {
+			System.out.println(i + ". Grupo " + i + ".");
+		}
+		@SuppressWarnings("resource")
+		Scanner entrada = new Scanner(System.in);
+		opcion = entrada.nextLine();
+		if (Integer.parseInt(opcion) >= 10) {
+			opcion = "/0".concat(opcion);
+		}else{
+			opcion = "/00".concat(opcion);
+		}
+		return opcion;
+	}
 
 	/**
 	 * Metodo que utilizaremos para hallar los K caminos entre el par de nodos

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package py.una.pol.vone.ga.model;
+package py.una.pol.vone.simulator.model;
 
 /**
  * Modelo que representa al enlace virtual entre dos nodos

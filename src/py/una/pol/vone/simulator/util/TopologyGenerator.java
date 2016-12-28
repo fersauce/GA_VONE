@@ -1,7 +1,7 @@
 /**
  * 
  */
-package py.una.pol.vone.ga.util;
+package py.una.pol.vone.simulator.util;
 
 import java.io.File;
 import java.io.FileWriter;

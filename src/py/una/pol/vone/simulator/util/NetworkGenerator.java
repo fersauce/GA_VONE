@@ -1,7 +1,7 @@
 /**
  * 
  */
-package py.una.pol.vone.ga.util;
+package py.una.pol.vone.simulator.util;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -18,12 +18,12 @@ import org.jgrapht.graph.ClassBasedVertexFactory;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
-import py.una.pol.vone.ga.model.SustrateEdge;
-import py.una.pol.vone.ga.model.SustrateNetwork;
-import py.una.pol.vone.ga.model.SustrateNode;
-import py.una.pol.vone.ga.model.VirtualEdge;
-import py.una.pol.vone.ga.model.VirtualNetwork;
-import py.una.pol.vone.ga.model.VirtualNode;
+import py.una.pol.vone.simulator.model.SustrateEdge;
+import py.una.pol.vone.simulator.model.SustrateNetwork;
+import py.una.pol.vone.simulator.model.SustrateNode;
+import py.una.pol.vone.simulator.model.VirtualEdge;
+import py.una.pol.vone.simulator.model.VirtualNetwork;
+import py.una.pol.vone.simulator.model.VirtualNode;
 
 /**
  * Clase utilizada para generar las topologias de redes virtuales.
@@ -145,6 +145,8 @@ public class NetworkGenerator {
 		VirtualNetwork redVirtual;
 		ArrayList<VirtualNode> nodosVirtuales;
 		ArrayList<VirtualEdge> enlacesVirtuales;
+		/*for(int numeroArchivoOrigenRed= 1; numeroArchivoOrigenRed <= param; numeroArchivo(
+		 * */
 		for(int i = 1;i <= cantidadRedes; i++){
 			numNodos = rand.nextInt(5)+3;
 			numMinEnlaces = numNodos - 1;

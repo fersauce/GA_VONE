@@ -1,7 +1,7 @@
 /**
  * 
  */
-package py.una.pol.vone.ga.model;
+package py.una.pol.vone.simulator.model;
 
 import java.util.ArrayList;
 import java.util.List;

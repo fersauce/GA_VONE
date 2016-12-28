@@ -2,4 +2,4 @@
  * @author Fernando Saucedo
  *
  */
-package py.una.pol.vone.ga;
+package py.una.pol.vone.simulator;

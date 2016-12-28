@@ -1,4 +1,4 @@
-package py.una.pol.vone.ga.model;
+package py.una.pol.vone.simulator.model;
 
 /**
  * Esta clase tiene la finalidad de almacenar todos los parametros a utilizar en
@@ -17,6 +17,28 @@ public class Parametros {
 	private int minFSVirtual;
 	private int maxFSVirtual;
 	private String redUtilizada;
+	private int numeroDePruebas;
+
+	/**
+	 * Constructor de la clase.
+	 */
+	public Parametros() {
+	}
+
+	/**
+	 * @return the numeroDePruebas
+	 */
+	public int getNumeroDePruebas() {
+		return numeroDePruebas;
+	}
+
+	/**
+	 * @param numeroDePruebas
+	 *            the numeroDePruebas to set
+	 */
+	public void setNumeroDePruebas(int numeroDePruebas) {
+		this.numeroDePruebas = numeroDePruebas;
+	}
 
 	/**
 	 * @return the redUtilizada
@@ -26,18 +48,18 @@ public class Parametros {
 	}
 
 	/**
-	 * @param redUtilizada the redUtilizada to set
+	 * @param redUtilizada
+	 *            the redUtilizada to set
 	 */
 	public void setRedUtilizada(String redUtilizada) {
 		this.redUtilizada = redUtilizada;
 	}
 
-	public Parametros() {
-	}
-
 	/**
 	 * Getter del atributo minCPUFisico
-	 * @return el valor minimo seteado de CPU fisica que puede tener un nodo de la red.
+	 * 
+	 * @return el valor minimo seteado de CPU fisica que puede tener un nodo de
+	 *         la red.
 	 */
 	public int getMinCPUFisico() {
 		return minCPUFisico;
@@ -45,7 +67,10 @@ public class Parametros {
 
 	/**
 	 * Setter del atributo minCPUFisico
-	 * @param minCPUFisico el valor a setear como el minimo de CPU fisica que puede tener un nodo de la red.
+	 * 
+	 * @param minCPUFisico
+	 *            el valor a setear como el minimo de CPU fisica que puede tener
+	 *            un nodo de la red.
 	 */
 	public void setMinCPUFisico(int minCPUFisico) {
 		this.minCPUFisico = minCPUFisico;
@@ -53,7 +78,9 @@ public class Parametros {
 
 	/**
 	 * Getter del atributo maxCPUFisico
-	 * @return el valor minimo seteado de CPU fisica que puede tener un nodo de la red.
+	 * 
+	 * @return el valor minimo seteado de CPU fisica que puede tener un nodo de
+	 *         la red.
 	 */
 	public int getMaxCPUFisico() {
 		return maxCPUFisico;
@@ -61,7 +88,10 @@ public class Parametros {
 
 	/**
 	 * Setter del atributo maxCPUFisico
-	 * @param maxCPUFisico el valor a setear como el minimo de CPU fisica que puede tener un nodo de la red
+	 * 
+	 * @param maxCPUFisico
+	 *            el valor a setear como el minimo de CPU fisica que puede tener
+	 *            un nodo de la red
 	 */
 	public void setMaxCPUFisico(int maxCPUFisico) {
 		this.maxCPUFisico = maxCPUFisico;
@@ -69,7 +99,9 @@ public class Parametros {
 
 	/**
 	 * Getter del atributo numeroFSFisico
-	 * @return el valor seteado de frequency slots que puede tener cada enlace de la red.
+	 * 
+	 * @return el valor seteado de frequency slots que puede tener cada enlace
+	 *         de la red.
 	 */
 	public int getNumeroFSFisico() {
 		return numeroFSFisico;
@@ -77,7 +109,8 @@ public class Parametros {
 
 	/**
 	 * 
-	 * @param numeroFSFisico the numeroFSFisico to set
+	 * @param numeroFSFisico
+	 *            the numeroFSFisico to set
 	 */
 	public void setNumeroFSFisico(int numeroFSFisico) {
 		this.numeroFSFisico = numeroFSFisico;
@@ -85,6 +118,7 @@ public class Parametros {
 
 	/**
 	 * Getter del atributo minCPUVirtual
+	 * 
 	 * @return the minCPUVirtual
 	 */
 	public int getMinCPUVirtual() {
@@ -92,7 +126,8 @@ public class Parametros {
 	}
 
 	/**
-	 * @param minCPUVirtual the minCPUVirtual to set
+	 * @param minCPUVirtual
+	 *            the minCPUVirtual to set
 	 */
 	public void setMinCPUVirtual(int minCPUVirtual) {
 		this.minCPUVirtual = minCPUVirtual;
@@ -106,7 +141,8 @@ public class Parametros {
 	}
 
 	/**
-	 * @param maxCPUVirtual the maxCPUVirtual to set
+	 * @param maxCPUVirtual
+	 *            the maxCPUVirtual to set
 	 */
 	public void setMaxCPUVirtual(int maxCPUVirtual) {
 		this.maxCPUVirtual = maxCPUVirtual;
@@ -120,7 +156,8 @@ public class Parametros {
 	}
 
 	/**
-	 * @param minFSVirtual the minFSVirtual to set
+	 * @param minFSVirtual
+	 *            the minFSVirtual to set
 	 */
 	public void setMinFSVirtual(int minFSVirtual) {
 		this.minFSVirtual = minFSVirtual;
@@ -134,7 +171,8 @@ public class Parametros {
 	}
 
 	/**
-	 * @param maxFSVirtual the maxFSVirtual to set
+	 * @param maxFSVirtual
+	 *            the maxFSVirtual to set
 	 */
 	public void setMaxFSVirtual(int maxFSVirtual) {
 		this.maxFSVirtual = maxFSVirtual;
